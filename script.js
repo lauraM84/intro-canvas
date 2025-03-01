@@ -4,6 +4,8 @@ const canvas = document.getElementById("my-canvas");
 
 const ctx = canvas.getContext('2d');
 
+const size = 800;
+
 /* ctx.fillStyle = "red";
 ctx.fillRect(10, 10, 100, 50);
 
@@ -31,16 +33,16 @@ ctx.strokeRect(350, 400, 10, 50);
     ctx.fillRect(originX, originY, width, height);
 } */
 
-setInterval(() => {
-    ctx.fillStyle = `rgba(255, 255, 255, 0.01)`
-    ctx.fillRect(0, 0, 600, 600);
+ctx.fillStyle = `rgba(255, 255, 255, 0.01)`
+ctx.fillRect(0, 0, size, size);
 
+setInterval(() => {
 
     const width = Math.random() * 200;
     const height = Math.random() * 200;
 
-    const originX = Math.random() * (600 - width);
-    const originY = Math.random() * (600 - height);
+    const originX = Math.random() * (size - width);
+    const originY = Math.random() * (size - height);
 
 
     const red = Math.random() * 255;
@@ -51,4 +53,4 @@ setInterval(() => {
     ctx.fillStyle = `rgb(${red}, ${green}, ${blue}, ${alpha})`;
     ctx.fillRect(originX, originY, width, height);
 
-}, 500);
+}, 300);
