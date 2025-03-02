@@ -48,11 +48,9 @@ start() */
 
 //2) far nevicare tipo https://aijs.io/
 
-let canvas;
+/* let canvas;
 let ctx;
 let entities = [];
-/* const size = 800; */
-
 
 function setUp() {
     canvas = document.getElementById('my-canvas');
@@ -97,46 +95,46 @@ function update() {
 }
 /////////////////////////////////// chatGPT a mani basse/////////////////////////////////////////
 function draw() {
-    /* ctx.fillStyle = `rgba(255, 255, 255, 0.1)` */
-    /* ctx.fillRect(0, 0, canvas.width, canvas.height); */
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    /* ctx.fillStyle = 'rgba(180, 220, 255, 0.7)' 
- */
-    for (let i = 0; i < entities.length; i++) {
-        const snowFlake = entities[i];
-        ctx.save();
+    //ctx.fillStyle = `rgba(255, 255, 255, 0.1)
+//ctx.fillRect(0, 0, canvas.width, canvas.height);
+ctx.clearRect(0, 0, canvas.width, canvas.height);
+// ctx.fillStyle = 'rgba(180, 220, 255, 0.7)'
 
-        // Sposta il sistema di coordinate nel punto del fiocco di neve
-        ctx.translate(snowFlake.x, snowFlake.y);
+for (let i = 0; i < entities.length; i++) {
+    const snowFlake = entities[i];
+    ctx.save();
 
-        // Ruota il fiocco per un effetto più realistico
-        ctx.rotate(snowFlake.angle);
+    // Sposta il sistema di coordinate nel punto del fiocco di neve
+    ctx.translate(snowFlake.x, snowFlake.y);
 
-        // Imposta il colore e la trasparenza del bordo del fiocco
-        ctx.strokeStyle = `rgba(180, 220, 255, ${snowFlake.opacity})`;
-        ctx.lineWidth = 1.5;
+    // Ruota il fiocco per un effetto più realistico
+    ctx.rotate(snowFlake.angle);
 
-        // Disegna il fiocco di neve con sei rami
-        for (let i = 0; i < 6; i++) {
-            ctx.beginPath();
-            ctx.moveTo(0, 0);
-            ctx.lineTo(0, -snowFlake.size);
+    // Imposta il colore e la trasparenza del bordo del fiocco
+    ctx.strokeStyle = `rgba(180, 220, 255, ${snowFlake.opacity})`;
+    ctx.lineWidth = 1.5;
+
+    // Disegna il fiocco di neve con sei rami
+    for (let i = 0; i < 6; i++) {
+        ctx.beginPath();
+        ctx.moveTo(0, 0);
+        ctx.lineTo(0, -snowFlake.size);
+        ctx.stroke();
+
+        // Aggiunge delle ramificazioni laterali su ciascun ramo!!!!!!!!!!!! O_o
+        for (let j = -1; j <= 1; j += 2) {
+            ctx.moveTo(0, -snowFlake.size / 2);
+            ctx.lineTo(j * snowFlake.size / 4, -snowFlake.size * 0.75);
             ctx.stroke();
-
-            // Aggiunge delle ramificazioni laterali su ciascun ramo!!!!!!!!!!!! O_o
-            for (let j = -1; j <= 1; j += 2) {
-                ctx.moveTo(0, -snowFlake.size / 2);
-                ctx.lineTo(j * snowFlake.size / 4, -snowFlake.size * 0.75);
-                ctx.stroke();
-            }
-
-            // Ruota di 60° per creare i sei rami !!!!!!!!!!!! O_o
-            ctx.rotate(Math.PI / 3);
         }
 
-        // Ripristina lo stato del canvas
-        ctx.restore()
+        // Ruota di 60° per creare i sei rami !!!!!!!!!!!! O_o
+        ctx.rotate(Math.PI / 3);
     }
+
+    // Ripristina lo stato del canvas
+    ctx.restore()
+}
 }
 
 function gameLoop(elapsedTime) {
@@ -154,7 +152,7 @@ function start() {
 }
 
 start()
-
+    */
 
 
 
@@ -163,24 +161,80 @@ start()
 //   c) più rettangoli per riga
 
 
-/* let canvas;
+let canvas;
 let ctx;
-const rowAmount = 10
-
+const allRows = []
 function setUp() {
-    const rect = {}
-    row.width = Math.random() * 10;
-    rect.height = canvas.height / rowAmount;
+    canvas = document.getElementById('my-canvas');
+    ctx = canvas.getContext('2d');
+    canvas.width = 600;
+    canvas.height = 600;
+    const rowheight = 50
+    const rowAmount = canvas.height / rowheight
+
+    const pastelColors = [
+        '#FFB6C1', '#FFDAB9', '#FFFACD', '#E6E6FA', '#B0E0E6', '#98FB98'
+    ];
+
+
+    for (let i = 0; i < rowAmount; i++) {
+        const row = {}
+
+        row.entities = []
+        for (let j = 0; j < 5; j++) {
+            const item = {}
+            const rowHeight = canvas.height / rowAmount
+            item.width = Math.random() * 100;
+            item.height = rowHeight - 10;
+            item.x = Math.random() * (canvas.width - item.width);
+            item.y = i * rowHeight;
+            item.speedX = Math.round(Math.random() * 1) + 1;
+
+            if (i % 2 === 1) {
+                item.speedX = item.speedX * -1
+            }
+            // Assegna un colore casuale dalla palette
+            item.color = pastelColors[Math.floor(Math.random() * pastelColors.length)];
+
+            row.entities.push(item);
+        }
+        allRows.push(row);
+    }
 }
 
 function update() {
+    for (let i = 0; i < allRows.length; i++) {
+        const row = allRows[i];
 
+        for (let j = 0; j < row.entities.length; j++) {
+            const item = row.entities[j];
+            item.x += item.speedX
+
+            if (item.x > canvas.width) {
+                item.x = 0
+            } else if (item.x <= 0) {
+                item.x = canvas.width - item.width
+            }
+        }
+    }
 }
 
 function draw() {
-    for (let row = 0; row < rowAmount; row++) {
+    ctx.clearRect(0, 0, 600, 600);
+    ctx.fillStyle = `rgba(255, 255, 255, 0.1)`
+    ctx.fillRect(0, 0, 600, 600)
 
+
+    for (let i = 0; i < allRows.length; i++) {
+        const row = allRows[i];
+
+        for (let j = 0; j < row.entities.length; j++) {
+            const item = row.entities[j];
+            ctx.fillStyle = item.color;
+            ctx.fillRect(item.x, item.y, item.width, item.height)
+        }
     }
+    console.log(allRows)
 }
 
 function gameLoop(elapsedTime) {
@@ -197,4 +251,4 @@ function start() {
     requestAnimationFrame(gameLoop);
 }
 
-start() */
+start();
