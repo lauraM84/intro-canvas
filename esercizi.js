@@ -172,9 +172,7 @@ function setUp() {
     const rowheight = 50
     const rowAmount = canvas.height / rowheight
 
-    const pastelColors = [
-        '#FFB6C1', '#FFDAB9', '#FFFACD', '#E6E6FA', '#B0E0E6', '#98FB98'
-    ];
+    const pastelColors = ['#B0E0E6', '#ADD8E6', '#87CEEB', '#4682B4', '#5F9EA0', '#6495ED'];
 
 
     for (let i = 0; i < rowAmount; i++) {
